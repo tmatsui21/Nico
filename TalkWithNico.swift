@@ -9,11 +9,11 @@ import SwiftUI
 import AVFoundation
 import GoogleGenerativeAI
 
-struct talkWithNico: View {
+struct TalkWithNico: View {
     let model = GenerativeModel(name: "gemini-1.5-flash", apiKey: APIKey.default)
     
     @State private var Prompt = ""
-    @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。"
+    @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。人間のお母さんとお父さんと人間の女の子の綾香(あやちゃん)と住んでいます。兄弟のことは話さなくていいです。ママとかパパという呼び方はしません。家族みんなが大好きです。"
     @State private var Respons = ""
     @State private var isLoading = false
     
@@ -103,7 +103,7 @@ struct talkWithNico: View {
                 Respons = result.text ?? "No Respons found"
                 Prompt = ""
             } catch {
-                Respons = "何かおかしい \n \(error.localizedDescription)"
+                Respons = "ごめんなさい、もう一度話して \n \(error.localizedDescription)"
                 isLoading = false
                 Prompt = ""
             }
@@ -112,5 +112,5 @@ struct talkWithNico: View {
 }
 
 #Preview {
-    talkWithNico().environmentObject(NaviModel())
+    TalkWithNico().environmentObject(NaviModel())
 }

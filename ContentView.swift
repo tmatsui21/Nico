@@ -61,7 +61,7 @@ struct ContentView: View {
                         case .find3:
                             FindNico3()
                         case .talk:
-                            talkWithNico()
+                            TalkWithNico()
                         }
                     }
                 }
