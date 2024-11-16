@@ -11,5 +11,8 @@ For talkWithNico view
   - https://github.com/google/generative-ai-swift
 - store API key in GenerativeAI-Info.plist file
 
+## Screenshots
+
+
 ## Author
 ©️Takashi Matsui 2024
