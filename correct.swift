@@ -9,8 +9,6 @@ import SwiftUI
 
 struct correct: View {
     @Environment(\.dismiss) var dismiss
-    @State private var timer: Timer?
-    @State private var count: Int = 0
     
     var body: some View {
         Image("正解")
@@ -20,22 +18,10 @@ struct correct: View {
         Text("正解です！")
             .font(.largeTitle)
             .onAppear {
-                timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-                    count += 1
-//                    print("timer カウント")
-                    if (count > 3) {
-                        count = 0
-                        timer?.invalidate()
-                        dismiss()
-                    }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    dismiss()
                 }
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-//                    timer?.invalidate()
-//                    timer = nil
-//                    dismiss()
-//                }
-                
-        }
+            }
     }
 }
 
