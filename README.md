@@ -1,6 +1,6 @@
 Nico
 ======
 
-### Application dedicated to "Nico", for learning SwiftUI purposes
+### Application dedicated to "Nico" for learning SwiftUI purposes
 
 
