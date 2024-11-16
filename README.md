@@ -2,7 +2,7 @@ Nico
 ======
 
 ## Description
-Application dedicated to Maltese "Nico" for learning SwiftUI purposes
+iOS App dedicated to Maltese "Nico" for learning SwiftUI
 
 ## Requirement
 
