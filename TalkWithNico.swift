@@ -103,7 +103,7 @@ struct TalkWithNico: View {
                 Respons = result.text ?? "No Respons found"
                 Prompt = ""
             } catch {
-                Respons = "ごめんなさい、もう一度話して \n \(error.localizedDescription)"
+                Respons = "ごめんなさい、イヌ翻訳機の調子が悪いみたいです\n \(error.localizedDescription)"
                 isLoading = false
                 Prompt = ""
             }
