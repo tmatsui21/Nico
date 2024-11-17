@@ -13,15 +13,19 @@ let barkData2 = NSDataAsset(name: "わん2")!.data
 let cryingData = NSDataAsset(name: "きゅーん1")!.data
 var nicoPlayer:AVAudioPlayer!
 
+enum FindNicoScreenType: Int {
+    case Q1 = 1, Q2, Q3
+}
+
 struct FindNicoScreen {
-    var findNumber:Int
-    var findOffsetX: CGFloat
-    var findOffsetY: CGFloat
+    var findNumber: Int = FindNicoScreenType.Q1.rawValue
+    var findOffsetX: CGFloat = -7
+    var findOffsetY: CGFloat = 0
 }
 
 struct ContentView: View {
     @StateObject var navi = NaviModel()
-    @State private var findNicoScreen = FindNicoScreen(findNumber: 1, findOffsetX: -7, findOffsetY: 0)
+    @State private var findNicoScreen = FindNicoScreen()
 
     var body: some View {
         Section(header: Text("にこのアプリ")
