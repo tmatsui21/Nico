@@ -11,16 +11,17 @@ import AVFoundation
 struct FindNico: View {
     @State private var isShowCorrectView = false
     @State private var isShowInCorrectView = false
-    
     @State private var location = CGPoint()
-    
     @EnvironmentObject var navi: NaviModel
+    @Binding var findNumber: Int
+    @Binding var findOffsetX: CGFloat
+    @Binding var findOffsetY: CGFloat
     
     var body: some View {
         VStack {
             Spacer()
             ZStack {
-                Image("ペット博")
+                Image("ペット博\(findNumber)")
                     .resizable()
                     .cornerRadius(20)
                     .scaledToFit()
@@ -37,13 +38,13 @@ struct FindNico: View {
                 }) {
                     Text("当たり位置")
                         .padding()
-                        .frame(width: 50,height: 80)
-                        .border(.clear, width: 5)
+                        .frame(width: 35,height: 67)
+                        .border(.red, width: 5)
                         .background(.clear)
                         .foregroundColor(.clear)
                         .cornerRadius(10)
                 }
-                .offset(x: -7, y: 7)
+                .offset(x: findOffsetX, y: findOffsetY)
                 .sheet(isPresented: $isShowCorrectView) {
                     correct()
                 }
@@ -66,18 +67,34 @@ struct FindNico: View {
                 incorrect()
             }
             
-            Text("問題1: にこはどこでしょう？")
+            Text("問題\(findNumber): にこはどこでしょう？")
                 .foregroundColor(.purple)
             Spacer()
             
             HStack{
-                Button("問題2🔍") {
-                    navi.screens.append(.find2)
-//                    print(navi.screens)
+                if (findNumber != 1){
+                    Button("問題1🔍") {
+                        findNumber = 1
+                        findOffsetX = -7
+                        findOffsetY = 0
+                        navi.screens.append(.find)
+                    }
                 }
-                Button("問題3🔍") {
-                    navi.screens.append(.find3)
-//                    print(navi.screens)
+                if (findNumber != 2){
+                    Button("問題2🔍") {
+                        findNumber = 2
+                        findOffsetX = -3
+                        findOffsetY = 20
+                        navi.screens.append(.find)
+                    }
+                }
+                if (findNumber != 3){
+                    Button("問題3🔍") {
+                        findNumber = 3
+                        findOffsetX = -45
+                        findOffsetY = 10
+                        navi.screens.append(.find)
+                    }
                 }
             }
             .padding()
@@ -96,5 +113,5 @@ struct FindNico: View {
 }
 
 #Preview {
-    FindNico().environmentObject(NaviModel())
+    FindNico(findNumber: .constant(1), findOffsetX: .constant(-7), findOffsetY: .constant(0)).environmentObject(NaviModel())
 }

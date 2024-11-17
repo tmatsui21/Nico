@@ -15,7 +15,10 @@ var nicoPlayer:AVAudioPlayer!
 
 struct ContentView: View {
     @StateObject var navi = NaviModel()
-    
+    @State var findNumber:Int = 1
+    @State private var findOffsetX: CGFloat = -7
+    @State private var findOffsetY: CGFloat = 0
+
     var body: some View {
         Section(header: Text("にこのアプリ")
             .font(.system(.title, design: .serif))
@@ -55,11 +58,7 @@ struct ContentView: View {
                         case .play:
                             PlayWithNico()
                         case .find:
-                            FindNico()
-                        case .find2:
-                            FindNico2()
-                        case .find3:
-                            FindNico3()
+                            FindNico(findNumber: $findNumber, findOffsetX: $findOffsetX, findOffsetY: $findOffsetY)  
                         case .talk:
                             TalkWithNico()
                         }
