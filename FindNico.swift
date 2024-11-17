@@ -11,7 +11,7 @@ import AVFoundation
 struct FindNico: View {
     @State private var isShowCorrectView = false
     @State private var isShowInCorrectView = false
-    @State private var location = CGPoint()
+
     @EnvironmentObject var navi: NaviModel
     
     @Binding var findNicoScreen: FindNicoScreen
@@ -48,9 +48,8 @@ struct FindNico: View {
                     correct()
                 }
             }
-            .onTapGesture(coordinateSpace: .global) { location in
-                isShowInCorrectView = true
-                
+            .onTapGesture {
+                isShowInCorrectView = true                
                 do{
                     nicoPlayer = try AVAudioPlayer(data: cryingData)
                     nicoPlayer.play()
