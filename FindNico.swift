@@ -110,5 +110,5 @@ struct FindNico: View {
 }
 
 #Preview {
-    FindNico(findNicoScreen: .constant(FindNicoScreen(findNumber: 1, findOffsetX: -7, findOffsetY: 0))).environmentObject(NaviModel())
+    FindNico(findNicoScreen: .constant(FindNicoScreen(findNumber: FindNicoScreenType.Q1.rawValue, findOffsetX: -7, findOffsetY: 0))).environmentObject(NaviModel())
 }
