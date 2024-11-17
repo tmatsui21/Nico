@@ -59,9 +59,6 @@ struct FindNico: View {
                 }
                 //                AudioServicesPlaySystemSound(1053)
             }
-            //                        .sheet(isPresented: $isShowCorrectView) {
-            //                            correct()
-            //                        }
             .sheet(isPresented: $isShowInCorrectView) {
                 incorrect()
             }
