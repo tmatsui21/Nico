@@ -68,7 +68,7 @@ struct FindNico: View {
             Spacer()
             
             HStack{
-                if (findNicoScreen.findNumber != 1){
+                if (findNicoScreen.findNumber != FindNicoScreenType.Q1.rawValue){
                     Button("問題1🔍") {
                         findNicoScreen.findNumber = FindNicoScreenType.Q1.rawValue
                         findNicoScreen.findOffsetX = -7
@@ -76,7 +76,7 @@ struct FindNico: View {
                         navi.screens.append(.find)
                     }
                 }
-                if (findNicoScreen.findNumber != 2){
+                if (findNicoScreen.findNumber != FindNicoScreenType.Q2.rawValue){
                     Button("問題2🔍") {
                         findNicoScreen.findNumber = FindNicoScreenType.Q2.rawValue
                         findNicoScreen.findOffsetX = -3
@@ -84,7 +84,7 @@ struct FindNico: View {
                         navi.screens.append(.find)
                     }
                 }
-                if (findNicoScreen.findNumber != 3){
+                if (findNicoScreen.findNumber != FindNicoScreenType.Q3.rawValue){
                     Button("問題3🔍") {
                         findNicoScreen.findNumber = FindNicoScreenType.Q3.rawValue
                         findNicoScreen.findOffsetX = -45
