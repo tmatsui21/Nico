@@ -13,8 +13,6 @@ final class NaviModel: ObservableObject {
     enum ScreenKey: Hashable{
         case play
         case find
-        case find2
-        case find3
         case talk
     }
 }
