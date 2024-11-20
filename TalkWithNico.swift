@@ -10,7 +10,7 @@ import AVFoundation
 import GoogleGenerativeAI
 
 struct TalkWithNico: View {
-    let model = GenerativeModel(name: "gemini-1.5-flash", apiKey: APIKey.default)
+    let model = GenerativeModel(name: "gemini-1.5-flash-002", apiKey: APIKey.default)
     
     @State private var Prompt = ""
     @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。"
