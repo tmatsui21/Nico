@@ -23,7 +23,7 @@ struct TalkWithNico: View {
     
     var body: some View {
         ZStack {
-            Image("nico14")
+            Image("nico6")
                 .resizable()
                 .cornerRadius(20)
                 .scaledToFit()
