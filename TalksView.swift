@@ -6,6 +6,8 @@ struct TalksView: View {
     @Environment(\.modelContext) private var context
     
     @State private var isShowAlert = false
+    @State private var isShowDialog = false
+    @State private var delTalk: Talk?
 
     @EnvironmentObject var navi: NaviModel
     
@@ -19,9 +21,15 @@ struct TalksView: View {
                             Text(talk.date.formatted(.dateTime.year().month().day().hour().minute()))
                             Spacer()
                             Button("削除"){
-                                context.delete(talk)
+                                delTalk = talk
+                                isShowDialog = true
                             }
                             .font(.subheadline)
+                            .confirmationDialog("会話をひとつ削除しますか?", isPresented: $isShowDialog, titleVisibility: .visible) {
+                                Button("削除する", role: .destructive) {
+                                    context.delete(delTalk!)
+                                }
+                            }
                         }
                         .padding()
                         HStack {
@@ -51,9 +59,12 @@ struct TalksView: View {
                     }
                 }
             }
-//            .task {
-//                context.insert(Talk(prompt: "テストテスト", respons: "答えのテストだよ答えのテストだよ"))
-//            }
+            .task {
+                context.insert(Talk(prompt: "テストテスト", respons: "答えのテストだよ答えのテストだよ"))
+                context.insert(Talk(prompt: "テストテスト２", respons: "答えのテストだよ答えのテストだよ"))
+                context.insert(Talk(prompt: "テストテスト３", respons: "答えのテストだよ答えのテストだよ"))
+                context.insert(Talk(prompt: "テストテスト４", respons: "答えのテストだよ答えのテストだよ"))
+            }
             if (!talks.isEmpty){
                 Button("全て削除する"){
                     isShowAlert.toggle()
