@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct TalksView: View {
-    @Query(sort: \Talk.date) private var talks: [Talk]
+    @Query(sort: \Talk.date, order: .reverse) private var talks: [Talk]
     @Environment(\.modelContext) private var context
     
     @State private var isShowAlert = false
