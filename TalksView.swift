@@ -5,21 +5,12 @@ struct TalksView: View {
     @Query(sort: \Talk.date) private var talks: [Talk]
     @Environment(\.modelContext) private var context
     
-    @State var isShowAlert = false
-    
-    @State private var alertType: AlertType = .delete
-    
+    @State private var isShowAlert = false
+
     @EnvironmentObject var navi: NaviModel
-    
-    enum AlertType {
-        case delete
-        case clear
-    }
     
     var body: some View {
         VStack {
-            
-            
             ScrollView{
                 VStack (alignment: .leading){
                     ForEach(talks){talk in
@@ -28,34 +19,9 @@ struct TalksView: View {
                             Text(talk.date.formatted(.dateTime.year().month().day().hour().minute()))
                             Spacer()
                             Button("削除"){
-                                alertType = .delete
-                                isShowAlert.toggle()
+                                context.delete(talk)
                             }
-                            .alert(isPresented: $isShowAlert){
-                                switch alertType {
-                                case .delete:
-                                    return Alert(
-                                        title: Text("本当に削除しますか？"),
-                                        primaryButton: .cancel(Text("キャンセル")),
-                                        secondaryButton: .destructive(Text("削除します。"),
-                                                                      action: {
-                                                                          context.delete(talk)
-                                                                      })
-                                    )
-                                    
-                                case .clear:
-                                    return Alert(
-                                        title: Text("本当に全て削除しますか？"),
-                                        primaryButton: .cancel(Text("キャンセル")),
-                                        secondaryButton: .destructive(Text("全て削除します。"),
-                                                                      action: {
-                                                                          for talk in talks {
-                                                                              context.delete(talk)
-                                                                          }
-                                                                      })
-                                    )
-                                }
-                            }
+                            .font(.subheadline)
                         }
                         .padding()
                         HStack {
@@ -85,13 +51,26 @@ struct TalksView: View {
                     }
                 }
             }
-            Button("全て削除する"){
-                if (!talks.isEmpty){
-                    alertType = .clear
+//            .task {
+//                context.insert(Talk(prompt: "テストテスト", respons: "答えのテストだよ答えのテストだよ"))
+//            }
+            if (!talks.isEmpty){
+                Button("全て削除する"){
                     isShowAlert.toggle()
                 }
+                .font(.subheadline)
+                .padding()
+                .alert("全削除", isPresented: $isShowAlert){
+                    Button ("はい全て削除します", role: .destructive){
+                        for talk in talks {
+                            context.delete(talk)
+                        }
+                    }
+                } message: {
+                    Text("本当に全て削除しますか")
+                }
             }
-            .padding()
+            
             Button{
                 print(navi.screens.count)
                 navi.screens.removeLast()
