@@ -59,12 +59,12 @@ struct TalksView: View {
                     }
                 }
             }
-            .task {
-                context.insert(Talk(prompt: "テストテスト", respons: "答えのテストだよ答えのテストだよ"))
-                context.insert(Talk(prompt: "テストテスト２", respons: "答えのテストだよ答えのテストだよ"))
-                context.insert(Talk(prompt: "テストテスト３", respons: "答えのテストだよ答えのテストだよ"))
-                context.insert(Talk(prompt: "テストテスト４", respons: "答えのテストだよ答えのテストだよ"))
-            }
+//            .task {
+//                context.insert(Talk(prompt: "テストテスト", respons: "答えのテストだよ答えのテストだよ"))
+//                context.insert(Talk(prompt: "テストテスト２", respons: "答えのテストだよ答えのテストだよ"))
+//                context.insert(Talk(prompt: "テストテスト３", respons: "答えのテストだよ答えのテストだよ"))
+//                context.insert(Talk(prompt: "テストテスト４", respons: "答えのテストだよ答えのテストだよ"))
+//            }
             if (!talks.isEmpty){
                 Button("全て削除する"){
                     isShowAlert.toggle()
