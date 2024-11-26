@@ -32,8 +32,6 @@ struct ContentView: View {
             .font(.system(.title, design: .serif))
             .fontWeight(.black)
             .foregroundColor(.blue)
-                ,footer: Text("© 2024 Takashi")
-            .font(.footnote)
         ) {
             NavigationStack (path: $navi.screens){
                 ZStack {
@@ -63,6 +61,8 @@ struct ContentView: View {
                     }
                     .navigationDestination (for: NaviModel.ScreenKey.self) { value in
                         switch value {
+                        case .talks:
+                            TalksView()
                         case .play:
                             PlayWithNico()
                         case .find:

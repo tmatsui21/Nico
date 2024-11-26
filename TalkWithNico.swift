@@ -8,18 +8,23 @@
 import SwiftUI
 import AVFoundation
 import GoogleGenerativeAI
+import SwiftData
 
 struct TalkWithNico: View {
     let model = GenerativeModel(name: "gemini-1.5-flash-002", apiKey: APIKey.default)
     
-    @State private var Prompt = ""
-    @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。"
-    @State private var Respons = ""
+    @State private var prompt = ""
+    @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。お母さんとお父さんと住んでいます。家族みんなが大好きです。"
+    @State private var tempPrompt = ""
+    @State private var respons = ""
     @State private var isLoading = false
     
     @FocusState private var focus:Bool
     
     @EnvironmentObject var navi: NaviModel
+    
+    @Query(sort: \Talk.date) private var talks: [Talk]
+    @Environment(\.modelContext) private var context
     
     var body: some View {
         ZStack {
@@ -31,20 +36,20 @@ struct TalkWithNico: View {
                 Spacer()
                 
                 ScrollView {
-                    Text(Respons)
+                    Text(respons)
                         .font(.body)
                         .foregroundColor(.blue)
                         .border(Color.pink, width: 0)
                 }
                 
-                
                 HStack {
-                    TextField("ここに入力", text: $Prompt)
+                    Image(systemName: "message")
+                    TextField("なんでもここに入力して", text: $prompt)
                         .textFieldStyle(.roundedBorder)
                         .focused($focus)
                     Button(action: {
                         focus = false
-                        if (Prompt != ""){
+                        if (prompt != ""){
                             do{
                                 nicoPlayer = try AVAudioPlayer(data: barkData)
                                 nicoPlayer.play()
@@ -54,22 +59,38 @@ struct TalkWithNico: View {
                             generateRespons()
                         }
                     }){
-                        Image(systemName: "square.and.arrow.up")
-                            .frame(width: 40, height: 40)
-                            .background(.cyan)
-                            .foregroundColor(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        VStack {
+                            Image(systemName: "square.and.arrow.up")
+                                .frame(width: 30, height: 30)
+                                .background(.cyan)
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            Text("決定").font(.caption2)
+                        }
                     }
                 }
                 .padding()
-                
-                Text("なんでも話して")
-                    .font(.title3)
-                    .foregroundColor(.blue)
+
+                HStack {
+                    if (respons != ""){
+                        Button("会話を保存する"){
+                            context.insert(Talk(prompt: tempPrompt, respons: respons))
+                            respons = ""
+                        }
+                        .font(.footnote)
+                        .padding()
+                    }
+                    if (!talks.isEmpty){
+                        Button (action: {navi.screens.append(.talks)}){
+                            HStack{
+                                Text("保存した会話をみる").font(.footnote)
+                                Image(systemName: "text.bubble")
+                            }
+                        }
+                    }
+                }
                 
                 Button{
-//                    print(navi.screens.count)
-//                    navi.screens.removeLast(navi.screens.count)
                     navi.screens.removeAll()
                 }label:{
                     Image(systemName:"dog")
@@ -77,9 +98,7 @@ struct TalkWithNico: View {
                         .foregroundColor(.red)
                 }
                 .padding()
-                
             }
-            
             if isLoading {
                 Color.orange.opacity(0.1)
                 ProgressView()
@@ -93,24 +112,27 @@ struct TalkWithNico: View {
     
     func generateRespons() {
         isLoading = true
-        Respons = ""
+        respons = ""
         
         Task {
             do {
                 let result = try await
-                model.generateContent(prePrompt + Prompt)
+                model.generateContent(prePrompt + prompt)
                 isLoading = false
-                Respons = result.text ?? "No Respons found"
-                Prompt = ""
+                respons = result.text ?? "No Respons found"
+                tempPrompt = prompt
+                prompt = ""
             } catch {
-                Respons = "ごめんなさい、イヌ翻訳機の調子が悪いみたいです\n \(error.localizedDescription)"
+                respons = "ごめんなさい、イヌ翻訳機の調子が悪いみたいです\n \(error.localizedDescription)"
                 isLoading = false
-                Prompt = ""
+                prompt = ""
             }
         }
     }
 }
 
 #Preview {
-    TalkWithNico().environmentObject(NaviModel())
+    TalkWithNico()
+        .environmentObject(NaviModel())
+        .modelContainer(for: Talk.self, inMemory: true)
 }

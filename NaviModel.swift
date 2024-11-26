@@ -14,5 +14,6 @@ final class NaviModel: ObservableObject {
         case play
         case find
         case talk
+        case talks
     }
 }
