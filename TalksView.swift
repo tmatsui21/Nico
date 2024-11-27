@@ -22,7 +22,7 @@ struct TalksView: View {
                             Spacer()
                             Button("削除"){
                                 delTalk = talk
-                                isShowDialog = true
+                                isShowDialog.toggle()
                             }
                             .font(.subheadline)
                             .confirmationDialog("会話をひとつ削除しますか?", isPresented: $isShowDialog, titleVisibility: .visible) {
