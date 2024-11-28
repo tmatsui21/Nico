@@ -14,7 +14,7 @@ struct TalkWithNico: View {
     let model = GenerativeModel(name: "gemini-1.5-flash-002", apiKey: APIKey.default)
     
     @State private var prompt = ""
-    @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。人間のお母さん（ママではない）とお父さん（パパではない）と女性の綾香(あやちゃん)と住んでいます。家族みんなが大好きです。兄弟のことは話さないでください。"
+    @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。お母さんとお父さんと住んでいます。家族みんなが大好きです。"
     @State private var tempPrompt = ""
     @State private var respons = ""
     @State private var isLoading = false
