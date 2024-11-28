@@ -30,6 +30,7 @@ struct TalksView: View {
                                     context.delete(delTalk!)
                                 }
                             }
+                            Image(systemName: "minus.circle.fill").foregroundColor(.orange)
                         }
                         .padding()
                         HStack {
@@ -65,22 +66,25 @@ struct TalksView: View {
 //                context.insert(Talk(prompt: "テストテスト３", respons: "答えのテストだよ答えのテストだよ"))
 //                context.insert(Talk(prompt: "テストテスト４", respons: "答えのテストだよ答えのテストだよ"))
 //            }
-            if (!talks.isEmpty){
-                Button("全て削除する"){
-                    isShowAlert.toggle()
-                }
-                .font(.subheadline)
-                .padding()
-                .alert("全削除", isPresented: $isShowAlert){
-                    Button ("はい全て削除します", role: .destructive){
-                        for talk in talks {
-                            context.delete(talk)
-                        }
+            HStack{
+                Spacer()
+                if (!talks.isEmpty){
+                    Button("全て削除する"){
+                        isShowAlert.toggle()
                     }
-                } message: {
-                    Text("本当に全て削除しますか")
+                    .font(.subheadline)
+                    .alert("全削除", isPresented: $isShowAlert){
+                        Button ("はい全て削除します", role: .destructive){
+                            for talk in talks {
+                                context.delete(talk)
+                            }
+                        }
+                    } message: {
+                        Text("本当に全て削除しますか")
+                    }
+                    Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.red)
                 }
-            }
+            }.padding()
             
             Button{
                 print(navi.screens.count)
@@ -88,7 +92,7 @@ struct TalksView: View {
             }label:{
                 Image(systemName:"dog")
                 Text("会話に戻る")
-                    .foregroundColor(.red)
+                    .foregroundColor(.blue)
             }
         }
         .navigationBarBackButtonHidden(true)
