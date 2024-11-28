@@ -14,7 +14,7 @@ struct TalkAvatar: View {
                 .scaledToFit()
                 .frame(width: 40, height: 40)
                 .clipShape(Circle())
-                .overlay(Circle().stroke(.blue, lineWidth: 1))
+//                .overlay(Circle().stroke(.blue, lineWidth: 1))
             Text("にこ")
                 .font(.caption2)
                 .foregroundColor(.blue)
