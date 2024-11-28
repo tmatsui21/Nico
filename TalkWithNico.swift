@@ -14,7 +14,7 @@ struct TalkWithNico: View {
     let model = GenerativeModel(name: "gemini-1.5-flash-002", apiKey: APIKey.default)
     
     @State private var prompt = ""
-    @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。お母さんとお父さんと住んでいます。家族みんなが大好きです。"
+    @State private var prePrompt = "メスのマルチーズの「にこ」として回答してください。人間のお母さん（ママではない）とお父さん（パパではない）と女性の綾香(あやちゃん)と住んでいます。家族みんなが大好きです。兄弟のことは話さないでください。"
     @State private var tempPrompt = ""
     @State private var respons = ""
     @State private var isLoading = false
@@ -23,7 +23,7 @@ struct TalkWithNico: View {
     
     @EnvironmentObject var navi: NaviModel
     
-    @Query(sort: \Talk.date) private var talks: [Talk]
+    @Query private var talks: [Talk]
     @Environment(\.modelContext) private var context
     
     var body: some View {
@@ -44,7 +44,7 @@ struct TalkWithNico: View {
                 
                 HStack {
                     Image(systemName: "message")
-                    TextField("なんでもここに入力して", text: $prompt)
+                    TextField("ここに入力してね", text: $prompt)
                         .textFieldStyle(.roundedBorder)
                         .focused($focus)
                     Button(action: {
@@ -73,15 +73,22 @@ struct TalkWithNico: View {
 
                 HStack {
                     if (respons != ""){
-                        Button("会話を保存する"){
+                        Button{
                             context.insert(Talk(prompt: tempPrompt, respons: respons))
                             respons = ""
+                        }label: {
+                            HStack{
+                                Image(systemName: "square.and.arrow.down")
+                                Text("会話を保存する")
+                            }
                         }
                         .font(.footnote)
                         .padding()
                     }
                     if (!talks.isEmpty){
-                        Button (action: {navi.screens.append(.talks)}){
+                        Button {
+                            navi.screens.append(.talks)
+                        }label: {
                             HStack{
                                 Text("保存した会話をみる").font(.footnote)
                                 Image(systemName: "text.bubble")
@@ -92,7 +99,7 @@ struct TalkWithNico: View {
                 
                 Button{
                     navi.screens.removeAll()
-                }label:{
+                }label: {
                     Image(systemName:"dog")
                     Text("メニューに戻る")
                         .foregroundColor(.red)

@@ -10,6 +10,9 @@ struct TalksView: View {
     @State private var delTalk: Talk?
 
     @EnvironmentObject var navi: NaviModel
+
+    @State private var exportText = ""
+    @State private var exportFile: Bool = false
     
     var body: some View {
         VStack {
@@ -20,9 +23,14 @@ struct TalksView: View {
                         HStack {
                             Text(talk.date.formatted(.dateTime.year().month().day().hour().minute()))
                             Spacer()
-                            Button("削除"){
+                            Button{
                                 delTalk = talk
                                 isShowDialog.toggle()
+                            } label: {
+                                HStack{
+                                    Text("削除")
+                                    Image(systemName: "minus.circle.fill").foregroundColor(.orange)
+                                }
                             }
                             .font(.subheadline)
                             .confirmationDialog("会話をひとつ削除しますか?", isPresented: $isShowDialog, titleVisibility: .visible) {
@@ -30,7 +38,6 @@ struct TalksView: View {
                                     context.delete(delTalk!)
                                 }
                             }
-                            Image(systemName: "minus.circle.fill").foregroundColor(.orange)
                         }
                         .padding()
                         HStack {
@@ -67,10 +74,41 @@ struct TalksView: View {
 //                context.insert(Talk(prompt: "テストテスト４", respons: "答えのテストだよ答えのテストだよ"))
 //            }
             HStack{
-                Spacer()
                 if (!talks.isEmpty){
-                    Button("全て削除する"){
+                    Button {
+                        for talk in talks {
+                            exportText += "\(talk.date.formatted(.dateTime.year().month().day().hour().minute()))\n（あなた）" + talk.prompt + "\n（にこちゃん）" + talk.respons + "\n"
+                        }
+                        exportFile = true
+                    }label: {
+                        HStack{
+                            Image(systemName: "square.and.arrow.up.circle")
+                                .foregroundColor(.purple)
+                            Text("会話をファイルに保存する")
+                        }
+                    }
+                    .font(.caption)
+                    .fileExporter(isPresented: $exportFile,
+                                  document: TalkFileDocument(text: exportText),
+                                  contentTypes: [.plainText],
+                                  defaultFilename: "にことの会話.txt"
+                    ) { result in
+                        switch result {
+                        case .success(let file):
+                            print(file)
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+                    Spacer()
+                    Button {
                         isShowAlert.toggle()
+                    }label: {
+                        HStack{
+                            Text("全て削除する")
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundColor(.red)
+                        }
                     }
                     .font(.subheadline)
                     .alert("全削除", isPresented: $isShowAlert){
@@ -82,14 +120,13 @@ struct TalksView: View {
                     } message: {
                         Text("本当に全て削除しますか")
                     }
-                    Image(systemName: "exclamationmark.triangle.fill").foregroundColor(.red)
                 }
             }.padding()
             
             Button{
                 print(navi.screens.count)
                 navi.screens.removeLast()
-            }label:{
+            }label: {
                 Image(systemName:"dog")
                 Text("会話に戻る")
                     .foregroundColor(.blue)
