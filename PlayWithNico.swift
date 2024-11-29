@@ -26,7 +26,6 @@ struct PlayWithNico: View {
                     Image("足跡2")
                         .resizable()
                         .frame(width: 70, height: 70)
-//                        .border(Color.red, width: 2)
                         .offset(offset)
                 }
                 .onTapGesture {
@@ -39,21 +38,30 @@ struct PlayWithNico: View {
                     if (numBox.count == 0){
                         numBox = randNum(max: maxImage - 1)
                     }
-//                    print (numBox)
+                    //                    print (numBox)
                     withAnimation(.easeInOut(duration: 0.7)){
-//                        image = Image("nico\(Int.random(in: 0 ..< maxImage))")
+                        //                        image = Image("nico\(Int.random(in: 0 ..< maxImage))")
                         image = Image("nico\(numBox.removeFirst())")
                     }
                     offset = CGSize(width: CGFloat.random(in: -100...100), height: CGFloat.random(in: -180...180))
                 }
             }
-            Spacer()
-            Text("🐾を押してね")
-                .foregroundColor(.purple)
-                .padding()
+            HStack{
+                Spacer()
+                Text("🐾を押してね")
+                    .foregroundColor(.purple)
+                Spacer()
+                if (numBox.count > 0){
+                    Text("\(maxImage-numBox.count)/\(maxImage)")
+                }
+                else {
+                    Text("Clear!")
+                }
+            }
+            .padding()
             Button{
-//                print(navi.screens.count)
-//                navi.screens.removeLast(navi.screens.count)
+                //                print(navi.screens.count)
+                //                navi.screens.removeLast(navi.screens.count)
                 navi.screens.removeAll()
             }label:{
                 Image(systemName:"dog")
@@ -62,6 +70,9 @@ struct PlayWithNico: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .task{
+            numBox = randNum(max: maxImage - 1)
+        }
     }
     
     private func randNum(max: Int) -> [Int]{
