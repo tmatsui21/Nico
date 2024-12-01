@@ -43,6 +43,7 @@ struct TalksView: View {
                         HStack {
                             Spacer()
                             Text(talk.prompt)
+                                .textSelection(.enabled)
                                 .padding(10)
                                 .foregroundColor(.white)
                                 .background(Color.gray)
@@ -56,6 +57,7 @@ struct TalksView: View {
                         HStack {
                             TalkAvatar(imageName: "nico11")
                             Text(talk.respons)
+                                .textSelection(.enabled)
                                 .bold()
                                 .padding(10)
                                 .foregroundColor(Color.white)
